@@ -15,7 +15,7 @@ export default function LandingPage() {
     </main>
 }
 
-export function InputWithButton() {
+function InputWithButton() {
     const [domain, setDomain] = useState('');
     // TODO: to make check button show spinner while fetching, consider using Jotai https://jotai.org
     // const [result, setResult] = useState<Message | null>({ message: '' });
