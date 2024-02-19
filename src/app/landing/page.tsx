@@ -1,7 +1,7 @@
 'use client';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Message } from "../interfaces/model";
 import useSWR from "swr";
 import { API_HOST, getDomain, postFetcher } from "@/lib/api";
@@ -17,34 +17,23 @@ export default function LandingPage() {
 
 function InputWithButton() {
     const [domain, setDomain] = useState('');
-    // TODO: to make check button show spinner while fetching, consider using Jotai https://jotai.org
-    // const [result, setResult] = useState<Message | null>({ message: '' });
     const [queryDomain, setQueryDomain] = useState('');
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDomain(e.target.value);
-    }
-    const handleCheck = () => {
-        setQueryDomain(domain);
-    }
+    const shouldFetch = queryDomain.trim() !== '';
+    const { data, error, isLoading } = useSWR(shouldFetch ? queryDomain : null, getDomain);
+
     return (
         <div className="flex flex-col w-full max-w-sm items-center space-y-2">
             <div className="flex space-x-2">
-                <Input type="email" placeholder="Enter your domain" value={domain} onChange={handleInputChange} />
-                <Button onClick={handleCheck} type="submit">Check</Button>
+                <Input type="email" placeholder="Enter your domain" value={domain} onChange={e => setDomain(e.target.value)} />
+                <Button onClick={() => setQueryDomain(domain)} type="submit">Check</Button>
             </div>
             <div className="flex w-full max-w-sm min-h-6 items-center space-x-2">
-                <Result queryDomain={queryDomain} />
+                {isLoading && <div>loading...</div>}
+                {error && <div>failed to load</div>}
+                {data && <div>{data?.message}</div>}
             </div>
         </div>
     )
-}
-
-function Result({ queryDomain }: { queryDomain: string }) {
-    const shouldFetch = queryDomain.trim() !== '';
-    const { data, error, isLoading } = useSWR(shouldFetch ? queryDomain : null, getDomain);
-    if (error) return <div>failed to load</div>
-    if (isLoading) return <div>loading...</div>
-    return <div>{data?.message}</div>
 }
 
 function BeautifulBackground() {
