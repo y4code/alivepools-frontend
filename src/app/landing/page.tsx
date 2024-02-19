@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { useEffect, useState } from "react";
 import { Message } from "../interfaces/model";
 import useSWR from "swr";
-import { API_HOST, getDomain, postFetcher } from "@/lib/api";
+import { getDomain } from "@/lib/api";
 
 export default function LandingPage() {
     return <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-6">
