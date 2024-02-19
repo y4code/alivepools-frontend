@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { useState } from "react";
 import { Message } from "../interfaces/model";
 import useSWR from "swr";
-import { API_HOST, fetcher } from "@/lib/api";
+import { API_HOST, getDomain, postFetcher } from "@/lib/api";
 
 export default function LandingPage() {
     return <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-6">
@@ -26,7 +26,6 @@ function InputWithButton() {
     const handleCheck = () => {
         setQueryDomain(domain);
     }
-
     return (
         <div className="flex flex-col w-full max-w-sm items-center space-y-2">
             <div className="flex space-x-2">
@@ -42,9 +41,7 @@ function InputWithButton() {
 
 function Result({ queryDomain }: { queryDomain: string }) {
     const shouldFetch = queryDomain.trim() !== '';
-    const { data, error, isLoading } = useSWR<Message>(shouldFetch
-        ? API_HOST + '/domain?website=' + queryDomain
-        : null, fetcher)
+    const { data, error, isLoading } = useSWR(shouldFetch ? queryDomain : null, getDomain);
     if (error) return <div>failed to load</div>
     if (isLoading) return <div>loading...</div>
     return <div>{data?.message}</div>
@@ -62,5 +59,4 @@ function BeautifulBackground() {
             }}
         ></div>
     </div>
-
 }
