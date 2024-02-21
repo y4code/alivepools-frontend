@@ -6,7 +6,13 @@ const axiosInstance = axios.create({ baseURL: API_HOST, timeout: 10000, });
 setupInterceptors(axiosInstance);
 
 async function makeApiRequest(endpoint: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', data?: any): Promise<AxiosResponse<any>> {
-    return axiosInstance({ method, url: endpoint, data, });
+    const requestOptions: AxiosRequestConfig = {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        data,
+    };
+    const response = await axiosInstance(endpoint, requestOptions);
+    return response.data;
 }
 
 const getFetcher = (url: string): Promise<any> => makeApiRequest(url, 'GET');
