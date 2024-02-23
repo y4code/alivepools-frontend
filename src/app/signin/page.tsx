@@ -8,8 +8,8 @@ import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { BeautifulBackground } from "../landing/page";
 import useSWR from "swr";
+import { BeautifulBackground } from "@/components/custom/beautifulBackground";
 
 const FormSchema = z.object({
     email: z.string().min(2, {
