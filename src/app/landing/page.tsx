@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useEffect, useState } from "react";
-import { Message } from "../interfaces/model";
+import { Message, Res, getErrorMessage } from "../interfaces/model";
 import useSWR from "swr";
 import { getDomain } from "@/lib/api";
 
@@ -19,8 +19,8 @@ function InputWithButton() {
     const [domain, setDomain] = useState('');
     const [queryDomain, setQueryDomain] = useState('');
     const shouldFetch = queryDomain.trim() !== '';
-    const { data, error, isLoading } = useSWR(shouldFetch ? queryDomain : null, getDomain);
-
+    const { data, error, isLoading } = useSWR<Res<Message>>(shouldFetch ? queryDomain : null, getDomain);
+    console.log(data)
     return (
         <div className="flex flex-col w-full max-w-sm items-center space-y-2">
             <div className="flex space-x-2">
@@ -30,13 +30,17 @@ function InputWithButton() {
             <div className="flex w-full max-w-sm min-h-6 items-center space-x-2">
                 {isLoading && <div>loading...</div>}
                 {error && <div>failed to load</div>}
-                {data && <div>{data?.message}</div>}
+                {data && (
+                    <div>
+                        {data.is_success ? "Website is available" : getErrorMessage(data.code)}
+                    </div>
+                )}
             </div>
         </div>
     )
 }
 
-function BeautifulBackground() {
+export function BeautifulBackground() {
     return <div
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
         aria-hidden="true"
