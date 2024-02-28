@@ -1,9 +1,8 @@
 'use client';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useEffect, useState } from "react";
-import { Message, Res, getErrorMessage } from "../interfaces/model";
-import useSWR from "swr";
+import { useState } from "react";
+import { getErrorMessage } from "../interfaces/model";
 import { getDomain } from "@/lib/api";
 import { BeautifulBackground } from "@/components/custom/beautifulBackground";
 import useSWRMutation from "swr/mutation";
@@ -19,28 +18,26 @@ export default function LandingPage() {
 
 function InputWithButton() {
     const [domain, setDomain] = useState('');
-    const shouldFetch = domain.trim() !== '';
-    const { data, error, isMutating, trigger } = useSWRMutation<Res<Message>, Error, { url: any, args: any }, { website: string }>({ url: '/domain', args: { website: domain } }, getDomain)
-
+    const { data, error, isMutating, trigger } = useSWRMutation({ url: '/domain', args: { website: domain } }, getDomain);
 
     return (
         <div className="flex flex-col w-full max-w-sm items-center space-y-2">
             <div className="flex space-x-2">
                 <Input type="email" placeholder="Enter your domain" value={domain} onChange={e => setDomain(e.target.value)} />
-                <Button onClick={() => {
-                    trigger({ website: domain })
-                }} type="submit">Check</Button>
+                <Button disabled={isMutating}
+                    onClick={() => {
+                        trigger()
+                    }} type="submit">Check</Button>
             </div>
             <div className="flex w-full max-w-sm min-h-6 items-center space-x-2">
                 {isMutating && <div>loading...</div>}
                 {error && <div>failed to load</div>}
-                {data && (
+                {!isMutating && data && (
                     <div>
-                        {data.is_success ? "Website is available" : getErrorMessage(data.code)}
+                        {data?.is_success ? "Website is available" : getErrorMessage(data?.code)}
                     </div>
                 )}
             </div>
         </div>
     )
 }
-
