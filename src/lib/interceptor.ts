@@ -1,6 +1,6 @@
 // interceptors.ts
 import { AxiosInstance } from 'axios';
-import { getToken, handleTokenExpiry } from './auth';
+import { getToken, handleTokenExpiry } from './token';
 
 export const setupInterceptors = (axiosInstance: AxiosInstance) => {
     axiosInstance.interceptors.request.use(

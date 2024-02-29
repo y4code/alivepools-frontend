@@ -40,11 +40,11 @@ export function signUpConfirmation({ url, args }: { url: string, args: { email: 
     return makeApiRequest(url, POST, args);
 }
 
-export function getTasks({ url }: { url: string }): Promise<Res<Task>> {
+export function getTasks({ url }: { url: string }): Promise<Res<Task[]>> {
     return makeApiRequest(url, GET);
 }
 
-export function getTaskById({ url }: { url: string }): Promise<Res<Task[]>> {
+export function getTaskById({ url }: { url: string }): Promise<Res<Task>> {
     return makeApiRequest(url, GET);
 }
 
