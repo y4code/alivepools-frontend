@@ -7,13 +7,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { BeautifulBackground } from "@/components/custom/beautifulBackground";
+import { BeautifulBackground } from "@/components/custom/beautiful-background";
 import { signIn } from "@/lib/api";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { useRouter } from "next/navigation";
-import { setToken } from "@/lib/auth";
+
 import { Toaster } from "@/components/ui/toaster";
+import { setToken } from "@/lib/token";
 
 const FormSchema = z.object({
     email: z.string().min(2, {
@@ -36,6 +37,7 @@ export default function SigninPage() {
             if (data.is_success) {
                 setToken(data.data.token);
                 router.replace("/dashboard");
+                
             } else {
                 toast({
                     title: "Sign in failed",
