@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { setupInterceptors } from './interceptor';
-import { CheckDomainPayload, Message, Res } from '@/app/interfaces/model';
+import { CheckDomainPayload, Message } from '@/app/interfaces/website';
+import { Res } from '@/app/interfaces/generic_res';
 
 const GET = 'GET';
 const POST = 'POST';
@@ -24,3 +25,8 @@ const makeApiRequest = async (endpoint: string, method: 'GET' | 'POST' | 'PUT' |
 export function getDomain({ url, args }: { url: string, args: CheckDomainPayload }): Promise<Res<Message>> {
     return makeApiRequest(url, POST, args);
 }
+
+export function SignIn({ email, password }: { email: string, password: string }): Promise<Res<Message>> {
+    return makeApiRequest('/user/signin', POST, { email, password });
+}
+
