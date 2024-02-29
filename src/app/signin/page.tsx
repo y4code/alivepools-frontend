@@ -1,15 +1,19 @@
 'use client';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { toast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import useSWR from "swr";
 import { BeautifulBackground } from "@/components/custom/beautifulBackground";
+import { signIn } from "@/lib/api";
+import { useState } from "react";
+import useSWRMutation from "swr/mutation";
+import { useRouter } from "next/navigation";
+import { setToken } from "@/lib/auth";
+import { Toaster } from "@/components/ui/toaster";
 
 const FormSchema = z.object({
     email: z.string().min(2, {
@@ -21,6 +25,32 @@ const FormSchema = z.object({
 })
 
 export default function SigninPage() {
+    const { toast } = useToast();
+    const router = useRouter();
+    const [statedFormData, setStatedFormData] = useState({
+        email: "",
+        password: "",
+    })
+    const { data, error, isMutating, trigger } = useSWRMutation({ url: '/user/signin', args: statedFormData }, signIn, {
+        onSuccess: (data) => {
+            if (data.is_success) {
+                setToken(data.data.token);
+                router.replace("/dashboard");
+            } else {
+                toast({
+                    title: "Sign in failed",
+                    description: data.message,
+                });
+            }
+        },
+        onError: (error) => {
+            toast({
+                title: "Sign in failed",
+                description: error.message,
+
+            });
+        }
+    });
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -28,15 +58,13 @@ export default function SigninPage() {
             password: "",
         },
     })
+
     function onSubmit(formData: z.infer<typeof FormSchema>) {
-        console.log(formData);
-        // useSWR
-        // const { data, error, isLoading } = useSWR(
-        //     formData,
-
-
+        trigger();
     }
+
     return <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-6">
+        <Toaster />
         <BeautifulBackground />
         <Card className="w-[350px]">
             <CardHeader>
@@ -45,7 +73,11 @@ export default function SigninPage() {
             </CardHeader>
             <CardContent>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3" onChange={
+                        () => {
+                            setStatedFormData(form.getValues())
+                        }
+                    }>
                         <FormField
                             control={form.control}
                             name="email"
@@ -73,11 +105,10 @@ export default function SigninPage() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit">Sign in</Button>
+                        <Button disabled={isMutating} type="submit">Sign in</Button>
                     </form>
                 </Form>
             </CardContent>
         </Card>
-
     </main>
 }
