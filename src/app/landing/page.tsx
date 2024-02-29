@@ -5,7 +5,7 @@ import { useState } from "react";
 import { getDomain } from "@/lib/api";
 import { BeautifulBackground } from "@/components/custom/beautifulBackground";
 import useSWRMutation from "swr/mutation";
-import { getErrorMessage } from "../interfaces/error";
+import { getErrorMessage } from "../interfaces/errors";
 
 export default function LandingPage() {
     return <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-6">

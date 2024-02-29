@@ -1,8 +1,7 @@
-
 export interface CheckDomainPayload {
     website: string;
 }
 
-export interface Message {
+export interface CheckDomainResponse {
     message: string;
 }
