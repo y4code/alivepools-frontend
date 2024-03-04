@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 // payload
 export interface SigninPayload {
   email: string;
@@ -14,5 +16,6 @@ export interface SignupConfirmationPayload {
 // response
 export interface SigninResponse {
   token: string;
+  user: User;
 }
 

@@ -12,14 +12,6 @@ import Link from "next/link";
 
 export default function LandingPage() {
     return <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-6">
-        <LoginWithEmail />
-        <Button asChild>
-            <Link href="/dashboard">
-                <>
-                    <PersonIcon className="ml-2 h-4 w-4" /> Go to Dashboard
-                </>
-            </Link>
-        </Button>
         <BeautifulBackground />
         <p className="">欢迎李姐重金注资一百块！</p>
         <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Alivepools, always alive</h1>

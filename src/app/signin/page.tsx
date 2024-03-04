@@ -14,7 +14,7 @@ import useSWRMutation from "swr/mutation";
 import { useRouter } from "next/navigation";
 
 import { Toaster } from "@/components/ui/toaster";
-import { setToken } from "@/lib/token";
+import useUser from "@/lib/use-user";
 
 const FormSchema = z.object({
     email: z.string().min(2, {
@@ -28,6 +28,7 @@ const FormSchema = z.object({
 export default function SigninPage() {
     const { toast } = useToast();
     const router = useRouter();
+    const { setUser } = useUser();
     const [statedFormData, setStatedFormData] = useState({
         email: "",
         password: "",
@@ -35,7 +36,7 @@ export default function SigninPage() {
     const { data, error, isMutating, trigger } = useSWRMutation({ url: '/user/signin', args: statedFormData }, signIn, {
         onSuccess: (data) => {
             if (data.is_success) {
-                setToken(data.data.token);
+                setUser(data.data.token, data.data.user);
                 router.replace("/dashboard");
                 
             } else {
