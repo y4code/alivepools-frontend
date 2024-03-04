@@ -14,8 +14,7 @@ const useUser = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-
-        setIsLoggedIn(!!tokenState && !!userState);
+        console.log('isLoggedin', isLoggedIn);
         setIsLoading(false);
         if (userState) {
             localStorage.setItem('user', JSON.stringify(userState));
@@ -23,8 +22,8 @@ const useUser = () => {
         } else {
             localStorage.removeItem('user');
             removeToken();
-        }    
-    }, [tokenState]);
+        }
+    }, [isLoggedIn, tokenState, userState]);
 
     const updateUserInfo = (newToken: string, newUser: User) => {
         setIsLoading(true);
