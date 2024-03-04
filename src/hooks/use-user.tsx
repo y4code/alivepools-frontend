@@ -10,12 +10,11 @@ const useUser = () => {
 
     const [tokenState, setTokenState] = useState<string | null>(cachedToken);
     const [userState, setUserState] = useState<User | null>(cachedUser);
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
+    const isLoggedIn = !!tokenState && !!userState;
+
     useEffect(() => {
-        setIsLoggedIn(!!tokenState && !!userState);
-        setIsLoading(false);
         if (userState) {
             localStorage.setItem('user', JSON.stringify(userState));
             setToken(tokenState as string);
@@ -23,20 +22,21 @@ const useUser = () => {
             localStorage.removeItem('user');
             removeToken();
         }
-    }, [isLoggedIn, tokenState, userState]);
+        setIsLoading(false);
+    }, [tokenState, userState]);
 
     const updateUserInfo = (newToken: string, newUser: User) => {
-        setIsLoading(true);
         setTokenState(newToken);
         setUserState(newUser);
+        setIsLoading(false);
     };
 
     const clearUserInfo = () => {
-        setIsLoading(true);
         setTokenState(null);
         setUserState(null);
         removeToken();
         localStorage.removeItem('user');
+        setIsLoading(false);
     };
 
     return { token: tokenState, user: userState, isLoggedIn, setUser: updateUserInfo, clearUser: clearUserInfo, isLoading };

@@ -3,7 +3,6 @@ import Link from "next/link";
 import MainNav from "./main-nav";
 import { Search } from "./search";
 import { UserNav } from "./user-nav";
-import { IconJarLogoIcon } from "@radix-ui/react-icons";
 import { Icons } from "./icons";
 import useUser from "@/hooks/use-user";
 import { LoginWithEmail } from "./login-with-email";
@@ -11,8 +10,6 @@ import { useEffect } from "react";
 
 export default function SiteHeader() {
     const { isLoggedIn, isLoading, user, clearUser } = useUser();
-
-    useEffect(() => { }, [isLoggedIn]);
 
     return (
         <header className="border-b">
