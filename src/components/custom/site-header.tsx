@@ -5,7 +5,7 @@ import { Search } from "./search";
 import { UserNav } from "./user-nav";
 import { IconJarLogoIcon } from "@radix-ui/react-icons";
 import { Icons } from "./icons";
-import useUser from "@/lib/use-user";
+import useUser from "@/hooks/use-user";
 import { LoginWithEmail } from "./login-with-email";
 import { useEffect } from "react";
 

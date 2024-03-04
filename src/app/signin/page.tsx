@@ -14,7 +14,7 @@ import useSWRMutation from "swr/mutation";
 import { useRouter } from "next/navigation";
 
 import { Toaster } from "@/components/ui/toaster";
-import useUser from "@/lib/use-user";
+import useUser from "@/hooks/use-user";
 
 const FormSchema = z.object({
     email: z.string().min(2, {

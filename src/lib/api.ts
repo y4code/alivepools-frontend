@@ -1,9 +1,9 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { setupInterceptors } from './interceptor';
-import { CheckDomainPayload, CheckDomainResponse } from '@/app/interfaces/website';
-import { Res } from '@/app/interfaces/generic_res';
-import { SigninPayload, SigninResponse, SignupPayload } from '@/app/interfaces/auth';
-import { Task } from '@/app/interfaces/task';
+import { CheckDomainPayload, CheckDomainResponse } from '@/interfaces/website';
+import { Res } from '@/interfaces/generic_res';
+import { SigninPayload, SigninResponse, SignupPayload } from '@/interfaces/auth';
+import { Task } from '@/interfaces/task';
 
 const GET = 'GET';
 const POST = 'POST';

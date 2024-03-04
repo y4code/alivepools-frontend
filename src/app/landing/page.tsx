@@ -5,7 +5,7 @@ import { useState } from "react";
 import { getDomain } from "@/lib/api";
 import { BeautifulBackground } from "@/components/custom/beautiful-background";
 import useSWRMutation from "swr/mutation";
-import { getErrorMessage } from "../interfaces/errors";
+import { getErrorMessage } from "../../interfaces/errors";
 import { PersonIcon, ReloadIcon } from "@radix-ui/react-icons"
 import { LoginWithEmail } from "@/components/custom/login-with-email";
 import Link from "next/link";

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { getToken, removeToken, setToken } from './token';
-import { User } from '@/app/interfaces/user';
-import localStorage from "./localStorage";
+import { getToken, removeToken, setToken } from '../lib/token';
+import { User } from '@/interfaces/user';
+import localStorage from "../lib/localStorage";
 
 
 const useUser = () => {
