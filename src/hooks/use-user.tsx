@@ -14,7 +14,6 @@ const useUser = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        console.log('isLoggedin', isLoggedIn);
         setIsLoading(false);
         if (userState) {
             localStorage.setItem('user', JSON.stringify(userState));
