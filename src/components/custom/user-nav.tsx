@@ -3,10 +3,14 @@ import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import useUser from "@/hooks/use-user";
+import { User } from "@/interfaces/user";
 
-export function UserNav() {
-    const { user, clearUser } = useUser();
+interface UserNavProps {
+    user: User | null;
+    clearUser: () => void;
+}
+
+export function UserNav({ user, clearUser }: UserNavProps) {
     const router = useRouter();
 
     const handleLogout = () => {

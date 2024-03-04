@@ -10,7 +10,7 @@ import { LoginWithEmail } from "./login-with-email";
 import { useEffect } from "react";
 
 export default function SiteHeader() {
-    const { isLoggedIn, isLoading } = useUser();
+    const { isLoggedIn, isLoading, user, clearUser } = useUser();
 
     useEffect(() => { }, [isLoggedIn]);
 
@@ -25,7 +25,7 @@ export default function SiteHeader() {
                     <div className="ml-auto">Loading...</div>
                     : <div className="ml-auto flex items-center space-x-4">
                         <Search></Search>
-                        {isLoggedIn ? <UserNav /> : <LoginWithEmail />}
+                        {isLoggedIn ? <UserNav user={user} clearUser={clearUser} /> : <LoginWithEmail />}
                     </div>
                 }
             </div>
