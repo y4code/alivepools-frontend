@@ -13,7 +13,7 @@ export default function DashboardPage() {
                 <h2 className="text-2xl font-bold mb-4">Task List</h2>
                 {error && <div>Failed to load tasks</div>}
                 {isLoading && <div>Loading...</div>}
-                {data && data.data.length > 0 ? (
+                {data && data.data && data.data.length > 0 && (
                     <ul>
                         {data.data.map((task) => (
                             <li key={task.id} className="border-b border-gray-200 p-4">
@@ -21,9 +21,8 @@ export default function DashboardPage() {
                             </li>
                         ))}
                     </ul>
-                ) : (
-                    <p>No tasks found.</p>
                 )}
+                {data && !data.data && <div>No tasks found.</div>}
             </div>
         </main>
     );

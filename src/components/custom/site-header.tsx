@@ -10,7 +10,9 @@ import { LoginWithEmail } from "./login-with-email";
 import { useEffect } from "react";
 
 export default function SiteHeader() {
-    const { isLoggedIn } = useUser();
+    const { isLoggedIn, isLoading } = useUser();
+
+    useEffect(() => { }, [isLoggedIn]);
 
     return (
         <header className="border-b">
@@ -19,10 +21,13 @@ export default function SiteHeader() {
                     <Icons.alivepools className="h-12 w-12" />
                 </Link>
                 <MainNav />
-                <div className="ml-auto flex items-center space-x-4">
-                    <Search></Search>
-                    {isLoggedIn ? <UserNav /> : <LoginWithEmail />}
-                </div>
+                {isLoading ?
+                    <div className="ml-auto">Loading...</div>
+                    : <div className="ml-auto flex items-center space-x-4">
+                        <Search></Search>
+                        {isLoggedIn ? <UserNav /> : <LoginWithEmail />}
+                    </div>
+                }
             </div>
         </header>
     )

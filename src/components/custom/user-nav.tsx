@@ -1,4 +1,5 @@
 'use client';
+import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "../ui/dropdown-menu";
@@ -6,6 +7,12 @@ import useUser from "@/lib/use-user";
 
 export function UserNav() {
     const { user, clearUser } = useUser();
+    const router = useRouter();
+
+    const handleLogout = () => {
+        clearUser();
+        router.push("/");
+    };
 
     return (
         <DropdownMenu>
@@ -38,7 +45,7 @@ export function UserNav() {
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={clearUser}>
+                <DropdownMenuItem onClick={handleLogout}>
                     Log out
                 </DropdownMenuItem>
             </DropdownMenuContent>
