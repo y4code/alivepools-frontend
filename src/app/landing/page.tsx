@@ -2,13 +2,19 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useState } from "react";
-import { getDomain } from "@/lib/api";
+import { createTask, getDomain } from "@/lib/api";
 import { BeautifulBackground } from "@/components/custom/beautiful-background";
-import useSWRMutation from "swr/mutation";
+import useSWRMutation, { SWRMutationConfiguration, SWRMutationHook } from "swr/mutation";
 import { getErrorMessage } from "../../interfaces/errors";
-import { PersonIcon, ReloadIcon } from "@radix-ui/react-icons"
+import { CheckIcon, CheckboxIcon, ExclamationTriangleIcon, PersonIcon, ReloadIcon } from "@radix-ui/react-icons"
 import { LoginWithEmail } from "@/components/custom/login-with-email";
 import Link from "next/link";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { CreateTaskPayload, Task, TaskStatus } from "@/interfaces/task";
+import useUser from "@/hooks/use-user";
+import { useRouter } from "next/navigation";
+import { Res } from "@/interfaces/generic_res";
+import { toast } from "@/components/ui/use-toast";
 
 export default function LandingPage() {
     return <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-6">
@@ -24,7 +30,7 @@ function InputWithButton() {
     const { data, error, isMutating, trigger } = useSWRMutation({ url: '/domain', args: { website: domain } }, getDomain);
 
     return (
-        <div className="flex flex-col w-full max-w-sm items-center space-y-2">
+        <div className="flex flex-col w-full items-center space-y-4">
             <div className="flex space-x-2">
                 <Input type="email" placeholder="Enter your domain" value={domain} onChange={e => setDomain(e.target.value)} />
                 <Button disabled={isMutating}
@@ -32,15 +38,53 @@ function InputWithButton() {
                     Check
                 </Button>
             </div>
-            <div className="flex w-full max-w-sm min-h-6 items-center space-x-2">
+            <div className="flex w-full min-h-6 items-center flex-col">
                 {isMutating && <div>loading...</div>}
                 {error && <div>failed to load</div>}
                 {!isMutating && data && (
-                    <div>
-                        {data?.is_success ? "Website is available" : getErrorMessage(data?.code)}
-                    </div>
+                    <>
+                        {data?.is_success ?
+                            <InfoCard website={domain} />
+                            : getErrorMessage(data?.code)}
+                    </>
                 )}
             </div>
+        </div>
+    )
+}
+
+function InfoCard({ website }: { website: string }) {
+    const router = useRouter();
+    const args: CreateTaskPayload = {
+        domain: website,
+        send_frequency: 300,
+        status: TaskStatus.Active,
+    }
+    const options = {
+        onSuccess: (data: Res<Task>) => { data.is_success ? router.push('./dashboard') : toast({ title: "Failed to create task", description: data.message }) },
+        onError: (error: Error) => { toast({ title: "Failed to create task", description: error.message }) }
+    };
+    const { data, error, isMutating, trigger } = useSWRMutation({ url: '/task', args }, createTask, options)
+    const { isLoggedIn } = useUser();
+
+    const handleSubscribe = () => {
+        if (!isLoggedIn) {
+            router.push('/signin');
+            return;
+        }
+        trigger();
+    }
+
+    return (
+        <div className="flex flex-row justify-between items-center w-full max-w-screen-md space-y-2 rounded-lg p-6 animate-fade-in">
+            <div className="flex flex-row space-x-2">
+                <CheckIcon className="w-6 h-6" />
+                <p>{website}</p>
+            </div>
+            <Button disabled={isMutating}
+                onClick={() => { handleSubscribe() }} type="submit">
+                Subscribe
+            </Button>
         </div>
     )
 }

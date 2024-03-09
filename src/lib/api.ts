@@ -3,7 +3,7 @@ import { setupInterceptors } from './interceptor';
 import { CheckDomainPayload, CheckDomainResponse } from '@/interfaces/website';
 import { Res } from '@/interfaces/generic_res';
 import { SigninPayload, SigninResponse, SignupPayload } from '@/interfaces/auth';
-import { Task } from '@/interfaces/task';
+import { CreateTaskPayload, Task } from '@/interfaces/task';
 
 const GET = 'GET';
 const POST = 'POST';
@@ -47,6 +47,11 @@ export function getTasks({ url }: { url: string }): Promise<Res<Task[]>> {
 export function getTaskById({ url }: { url: string }): Promise<Res<Task>> {
     return makeApiRequest(url, GET);
 }
+
+export function createTask({ url, args }: { url: string, args: CreateTaskPayload }): Promise<Res<Task>> {
+    return makeApiRequest(url, POST, args);
+}
+
 
 export function updateTaskById({ url, args }: { url: string, args: { data: Task } }): Promise<Res<null>> {
     return makeApiRequest(url, PUT, args);

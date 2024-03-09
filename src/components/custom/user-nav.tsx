@@ -15,7 +15,7 @@ export function UserNav({ user, clearUser }: UserNavProps) {
 
     const handleLogout = () => {
         clearUser();
-        router.push("/");
+        router.push('/');
     };
 
     return (
