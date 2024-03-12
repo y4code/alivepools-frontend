@@ -13,7 +13,6 @@ import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { useRouter } from "next/navigation";
 
-import { Toaster } from "@/components/ui/toaster";
 import useUser from "@/hooks/use-user";
 
 const FormSchema = z.object({
@@ -67,7 +66,6 @@ export default function SigninPage() {
     }
 
     return <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-6">
-        <Toaster />
         <BeautifulBackground />
         <Card className="w-[350px]">
             <CardHeader>
