@@ -1,20 +1,17 @@
 'use client';
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { createTask, getDomain } from "@/lib/api";
 import { BeautifulBackground } from "@/components/custom/beautiful-background";
-import useSWRMutation, { SWRMutationConfiguration, SWRMutationHook } from "swr/mutation";
+import useSWRMutation from "swr/mutation";
 import { getErrorMessage } from "../../interfaces/errors";
-import { CheckIcon, CheckboxIcon, ExclamationTriangleIcon, PersonIcon, ReloadIcon } from "@radix-ui/react-icons"
-import { LoginWithEmail } from "@/components/custom/login-with-email";
-import Link from "next/link";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { CreateTaskPayload, Task, TaskStatus } from "@/interfaces/task";
+import { CheckIcon } from "@radix-ui/react-icons";
 import useUser from "@/hooks/use-user";
 import { useRouter } from "next/navigation";
 import { Res } from "@/interfaces/generic_res";
 import { toast } from "@/components/ui/use-toast";
+import { CreateTaskPayload, Task, TaskStatus } from "@/interfaces/task";
 
 export default function LandingPage() {
     return <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-6">
