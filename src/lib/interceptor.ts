@@ -1,11 +1,10 @@
-// interceptors.ts
 import { AxiosInstance } from 'axios';
-import { getToken, handleTokenExpiry } from './token';
+import localStorage from './localStorage';
 
 export const setupInterceptors = (axiosInstance: AxiosInstance) => {
     axiosInstance.interceptors.request.use(
         (config) => {
-            const token = getToken();
+            const token = localStorage.getItem('token');
             if (token) {
                 config.headers['Authorization'] = `Bearer ${token}`;
             }
@@ -22,7 +21,9 @@ export const setupInterceptors = (axiosInstance: AxiosInstance) => {
         },
         (error) => {
             if (error.response && error.response.status === 401) {
-                handleTokenExpiry();
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = '/login';
             }
             return Promise.reject(error);
         }

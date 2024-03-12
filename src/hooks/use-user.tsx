@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import { getToken, removeToken, setToken } from '../lib/token';
 import { User } from '@/interfaces/user';
 import localStorage from "../lib/localStorage";
 
 
 const useUser = () => {
-    const cachedToken = getToken();
+    const cachedToken = localStorage.getItem('token');
     const cachedUser: User | null = JSON.parse(localStorage.getItem('user') || 'null');
 
     const [tokenState, setTokenState] = useState<string | null>(cachedToken);
@@ -17,10 +16,10 @@ const useUser = () => {
     useEffect(() => {
         if (userState) {
             localStorage.setItem('user', JSON.stringify(userState));
-            setToken(tokenState as string);
+            localStorage.setItem('token', tokenState as string);
         } else {
             localStorage.removeItem('user');
-            removeToken();
+            localStorage.removeItem('token');
         }
         setIsLoading(false);
     }, [tokenState, userState]);
@@ -34,7 +33,7 @@ const useUser = () => {
     const clearUserInfo = () => {
         setTokenState(null);
         setUserState(null);
-        removeToken();
+        localStorage.removeItem('token');
         localStorage.removeItem('user');
         setIsLoading(false);
     };
