@@ -25,7 +25,6 @@ export default function DashboardPage() {
                                 <TableHead>Status</TableHead>
                                 <TableHead>Created At</TableHead>
                                 <TableHead>Last Run Time</TableHead>
-                                <TableHead>Next Run Time</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
