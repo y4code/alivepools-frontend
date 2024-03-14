@@ -36,7 +36,6 @@ export default function DashboardPage() {
                                     <TableCell>{task.status}</TableCell>
                                     <TableCell>{task.created_at}</TableCell>
                                     <TableCell>{task.last_run_time}</TableCell>
-                                    <TableCell>{task.next_run_time}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

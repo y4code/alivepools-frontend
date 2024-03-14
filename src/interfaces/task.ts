@@ -1,6 +1,6 @@
 export enum TaskStatus {
     Active = 'active',
-    Deactive = 'deactive',
+    Inactive = 'inactive',
 }
 
 export interface CreateTaskPayload {
@@ -14,5 +14,4 @@ export interface Task extends CreateTaskPayload {
     email: string;
     created_at: string;
     last_run_time: string;
-    next_run_time: string;
 }
