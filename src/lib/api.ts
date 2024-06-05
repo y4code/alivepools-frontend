@@ -10,7 +10,8 @@ const POST = 'POST';
 const PUT = 'PUT';
 const DELETE = 'DELETE';
 
-const API_HOST = 'https://alivepools.siri.ink/api';
+const API_HOST = 'https://alivepools.yingle.win/api';
+
 const axiosInstance = axios.create({ baseURL: API_HOST, timeout: 10000, });
 setupInterceptors(axiosInstance);
 
